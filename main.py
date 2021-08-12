@@ -1,9 +1,9 @@
 # Define the matrix representing the game boundaries
 # A position is defined by three coordinates:
-#     [board, row, column] = [up-down, front-back, left-right] from a front view
-# A row is 4 locations
-# A board ia 4 rows forming a 4 x 4 grid
-# A cube is 4 boards stacked one on top of another
+#     [board, row, column] = [up->down, front->back, left->right] from a front view
+# A row is 4 locations, forming a 4 x 1 array
+# A board ia 4 rows, forming a 4 x 4 grid
+# A cube is 4 boards stacked one on top of another, forming a 4 x 4 x 4 cube
 # row = [
 #     0,
 #     0,
