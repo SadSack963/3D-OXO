@@ -1,31 +1,8 @@
-# Define the matrix representing the game boundaries
-# A position is defined by two coordinates:
-#     [row, column] = [front->back, left->right] from a top-down view
-# A row is 4 locations, forming a 3 x 1 array
-# A board ia 4 rows, forming a 3 x 3 grid
-# row = [
-#     0,
-#     0,
-#     0
-# ]
-board = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
-]
-
-# # Change the value of a single position in the board
-# col = 2  # 3rd position right
-# row = 1  # 2nd row back
-#
-# board[row][col] = 2
-# print(board)
-# """
-# [[0, 0, 0], [0, 0, 2], [0, 0, 0]]
-# """
+# 2-D OXO
+# =======
 
 
-# TODO: Define the winning combinations
+# Check for a winning combination
 def check_win(user):
     # Rows
     for row in range(3):
@@ -45,10 +22,7 @@ def check_win(user):
         return user
 
 
-# TODO: Draw the board (2D)
-
-
-# TODO: Get user input
+# Get user input
 def get_user_input(user):
     position = input(f"Player {symbols[user - 1]} position (row col): ").split(" ")
     row = int(position[0])
@@ -56,21 +30,23 @@ def get_user_input(user):
     return row, col
 
 
-# TODO: Draw the user1 choice on the board
+# TODO: Draw the board (2D)
+def draw_board():
+    print(f'{board[0]}\n{board[1]}\n{board[2]}')
 
 
-# TODO: Detect a win
+# Define the matrix representing the game board
+row0 = [0, 0, 0]
+row1 = [0, 0, 0]
+row2 = [0, 0, 0]
 
+board = [row0, row1, row2]
 
-# TODO: Get user2 input
-
-
-# TODO: Draw the user2 choice on the board
-
-
-# TODO: Detect a win
 symbols = ["X", "O"]
-positions_free = 9
+positions_free = len(row0) * len(board)
+
+# Game Loop
+
 game_on = True
 while game_on:
     for user in [1, 2]:
@@ -80,7 +56,7 @@ while game_on:
             row, col = get_user_input(user)
         board[row][col] = user
         positions_free -= 1
-        print(f'{board[0]}\n{board[1]}\n{board[2]}')
+        draw_board()
         winner = check_win(user)
         if winner == user:
             print(f"Player {symbols[user - 1]} wins!")
