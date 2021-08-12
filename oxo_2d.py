@@ -70,6 +70,7 @@ def get_user_input(user):
 
 # TODO: Detect a win
 symbols = ["X", "O"]
+positions_free = 9
 game_on = True
 while game_on:
     for user in [1, 2]:
@@ -78,9 +79,14 @@ while game_on:
             print("That position is already taken.")
             row, col = get_user_input(user)
         board[row][col] = user
-        print(board)
+        positions_free -= 1
+        print(f'{board[0]}\n{board[1]}\n{board[2]}')
         winner = check_win(user)
         if winner == user:
-            print(f"{symbols[user - 1]} win")
+            print(f"Player {symbols[user - 1]} wins!")
+            game_on = False
+            break
+        if positions_free == 0:
+            print("It's a draw!")
             game_on = False
             break
