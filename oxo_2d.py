@@ -3,28 +3,28 @@
 
 
 # Check for a winning combination
-def check_win(user):
+def check_win(user_id):
     # Rows
     for row in range(3):
-        if board[row][0] == board[row][1] == board[row][2] == user:
-            return user
+        if board[row][0] == board[row][1] == board[row][2] == user_id:
+            return user_id
 
     # Columns
     for col in range(3):
-        if board[0][col] == board[1][col] == board[2][col] == user:
-            return user
+        if board[0][col] == board[1][col] == board[2][col] == user_id:
+            return user_id
 
     # Diagonals
-    if board[0][0] == board[1][1] == board[2][2] == user:
-        return user
+    if board[0][0] == board[1][1] == board[2][2] == user_id:
+        return user_id
 
-    if board[0][2] == board[1][1] == board[2][0] == user:
-        return user
+    if board[0][2] == board[1][1] == board[2][0] == user_id:
+        return user_id
 
 
 # Get user input
-def get_user_input(user):
-    position = input(f"Player {symbols[user - 1]} position (row col): ").split(" ")
+def get_user_input(user_id):
+    position = input(f"Player {symbols[user_id - 1]} position (row col): ").split(" ")
     row = int(position[0])
     col = int(position[1])
     return row, col
@@ -46,7 +46,6 @@ symbols = ["X", "O"]
 positions_free = len(row0) * len(board)
 
 # Game Loop
-
 game_on = True
 while game_on:
     for user in [1, 2]:
