@@ -10,12 +10,12 @@ def check_win(user_id):
     for pln in range(4):
         # Rows
         for row in range(4):
-            if cube[pln][row][0] == cube[pln][row][1] == cube[pln][row][2] == user_id:
+            if cube[pln][row][0] == cube[pln][row][1] == cube[pln][row][2] == cube[pln][row][3] == user_id:
                 return user_id
 
         # Columns
         for col in range(4):
-            if cube[pln][0][col] == cube[pln][1][col] == cube[pln][2][col] == user_id:
+            if cube[pln][0][col] == cube[pln][1][col] == cube[pln][2][col] == cube[pln][3][col] == user_id:
                 return user_id
 
         # Diagonals
@@ -27,7 +27,6 @@ def check_win(user_id):
     # TODO: check for vertical wins
 
 
-# TODO: Get user input
 # Get user input
 def get_user_input(user_id):
     position = input(f"Player {symbols[user_id - 1]} position (plane row column): ").split(" ")
