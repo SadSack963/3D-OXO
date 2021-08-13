@@ -59,20 +59,21 @@ def get_user_input(user_id):
 
 def draw_board():
     # TODO: Draw the board (2D)
-    print(f'{board[0]}\n{board[1]}\n{board[2]}')
+    print(board)
 
 
 def ai_best_move():
     # minimax algorithm
 
     # AI to make it's move
-    depth = 0  # number of moves to analyze in the tree
+    depth = 0  # number of moves to analyze in the tree (i.e. think depth moves ahead)
     best_score = -inf
     for i in range(3):
         for j in range(3):
             if board[i][j] == 0:  # check that the spot is free
                 board[i][j] = ai  # make a test move
-                score = minimax(board, depth, maximizing=True)  # next player is the human (maximizing)
+                score = minimax(board, depth, maximizing=False)  # next player is the human (maximizing)
+                print(i, j, score)
                 board[i][j] = 0  # undo the test move
                 if score > best_score:
                     best_score = score
@@ -90,28 +91,28 @@ def minimax(board, depth, maximizing):
     if result:
         return scores[result]
 
-    if maximizing:  # human is the maximizing player
+    if maximizing:  # ai is the maximizing player
         best_score = -inf
-        if depth < 0:
-            return best_score
-        for i in range(3):
-            for j in range(3):
-                if board[i][j] == 0:  # is the spot free
-                    board[i][j] = human  # make a test move
-                    score = minimax(board, depth - 1, maximizing=False)  # next player is the ai (minimizing)
-                    board[i][j] = 0  # undo the test move
-                    best_score = max(score, best_score)
-        return best_score
-
-    else:  # ai is the minimizing player
-        best_score = inf
-        if depth < 0:
-            return best_score
+        # if depth < 0:
+        #     return best_score
         for i in range(3):
             for j in range(3):
                 if board[i][j] == 0:  # is the spot free
                     board[i][j] = ai  # make a test move
-                    score = minimax(board, depth - 1, maximizing=True)  # next player is the human (maximizing)
+                    score = minimax(board, depth + 1, maximizing=False)  # next player is the ai (minimizing)
+                    board[i][j] = 0  # undo the test move
+                    best_score = max(score, best_score)
+        return best_score
+
+    else:  # human is the minimizing player
+        best_score = inf
+        # if depth < 0:
+        #     return best_score
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == 0:  # is the spot free
+                    board[i][j] = human  # make a test move
+                    score = minimax(board, depth + 1, maximizing=True)  # next player is the human (maximizing)
                     board[i][j] = 0  # undo the test move
                     best_score = min(score, best_score)
         return best_score
