@@ -2,10 +2,17 @@
 # =======
 
 import numpy as np
+import os
 
 
-# Check for a winning combination
+def cls():
+    # Cross-platform clear screen
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def check_win(user_id):
+    # Check for a winning combination
+
     # check each x-y plane
     for x in range(4):
         # Rows
@@ -77,8 +84,8 @@ def check_win(user_id):
         return user_id
 
 
-# Get user input
 def get_user_input(user_id):
+    # Get user input
     position = input(f"Player {symbols[user_id - 1]} position (plane row column): ").split(" ")
     pln = int(position[0])
     row = int(position[1])
@@ -86,8 +93,8 @@ def get_user_input(user_id):
     return pln, row, col
 
 
-# TODO: Draw the board (3D)
 def draw_board():
+    # TODO: Draw the board (3D)
     print(cube)
 
 
@@ -107,6 +114,7 @@ while game_on:
             pln, row, col = get_user_input(user)
         cube[pln][row][col] = user
         positions_free -= 1
+        cls()
         draw_board()
         winner = check_win(user)
         if winner == user:
