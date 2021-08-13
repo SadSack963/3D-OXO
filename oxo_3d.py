@@ -6,25 +6,75 @@ import numpy as np
 
 # Check for a winning combination
 def check_win(user_id):
-    # check each plane
-    for pln in range(4):
+    # check each x-y plane
+    for x in range(4):
         # Rows
-        for row in range(4):
-            if cube[pln][row][0] == cube[pln][row][1] == cube[pln][row][2] == cube[pln][row][3] == user_id:
+        for y in range(4):
+            if cube[x][y][0] == cube[x][y][1] == cube[x][y][2] == cube[x][y][3] == user_id:
                 return user_id
 
         # Columns
-        for col in range(4):
-            if cube[pln][0][col] == cube[pln][1][col] == cube[pln][2][col] == cube[pln][3][col] == user_id:
+        for z in range(4):
+            if cube[x][0][z] == cube[x][1][z] == cube[x][2][z] == cube[x][3][z] == user_id:
                 return user_id
 
         # Diagonals
-        if cube[pln][0][0] == cube[pln][1][1] == cube[pln][2][2] == cube[pln][3][3] == user_id:
+        if cube[x][0][0] == cube[x][1][1] == cube[x][2][2] == cube[x][3][3] == user_id:
             return user_id
 
-        if cube[pln][0][3] == cube[pln][1][2] == cube[pln][2][1] == cube[pln][3][0] == user_id:
+        if cube[x][0][3] == cube[x][1][2] == cube[x][2][1] == cube[x][3][0] == user_id:
             return user_id
-    # TODO: check for vertical wins
+
+    # check each x-z plane
+    for x in range(4):
+        # Rows
+        for y in range(4):
+            if cube[y][0][x] == cube[y][1][x] == cube[y][2][x] == cube[y][3][x] == user_id:
+                return user_id
+
+        # Columns
+        for z in range(4):
+            if cube[0][z][x] == cube[1][z][x] == cube[2][z][x] == cube[3][z][x] == user_id:
+                return user_id
+
+        # Diagonals
+        if cube[0][0][x] == cube[1][1][x] == cube[2][2][x] == cube[3][3][x] == user_id:
+            return user_id
+
+        if cube[0][3][x] == cube[1][2][x] == cube[2][1][x] == cube[3][0][x] == user_id:
+            return user_id
+
+    # check each y-z plane
+    for x in range(4):
+        # Rows
+        for y in range(4):
+            if cube[0][x][y] == cube[1][x][y] == cube[2][x][y] == cube[3][x][y] == user_id:
+                return user_id
+
+        # Columns
+        for z in range(4):
+            if cube[z][x][0] == cube[z][x][1] == cube[z][x][2] == cube[z][x][3] == user_id:
+                return user_id
+
+        # Diagonals
+        if cube[0][x][0] == cube[1][x][1] == cube[2][x][2] == cube[3][x][3] == user_id:
+            return user_id
+
+        if cube[3][x][0] == cube[2][x][1] == cube[1][x][2] == cube[0][x][3] == user_id:
+            return user_id
+
+    # Check cube diagonals
+    if cube[0][0][0] == cube[1][1][1] == cube[2][2][2] == cube[3][3][3] == user_id:
+        return user_id
+
+    if cube[0][0][3] == cube[1][1][2] == cube[2][2][1] == cube[3][3][0] == user_id:
+        return user_id
+
+    if cube[0][3][0] == cube[1][2][1] == cube[2][1][2] == cube[3][0][3] == user_id:
+        return user_id
+
+    if cube[0][3][3] == cube[1][2][2] == cube[2][1][1] == cube[3][0][0] == user_id:
+        return user_id
 
 
 # Get user input
