@@ -100,7 +100,7 @@ positions_free = cube.size
 # Game Loop
 game_on = True
 while game_on:
-    for user in [1, 2]:
+    for user in [1]:
         pln, row, col = get_user_input(user)
         while cube[pln][row][col] != 0:
             print("That position is already taken.")
