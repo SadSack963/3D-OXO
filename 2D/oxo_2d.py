@@ -18,6 +18,9 @@ def check_win(user_id):
     :param user_id: player ID
     :return: None if no winner, otherwise user_id
     """
+
+
+
     # Rows
     for row in range(3):
         if board[row][0] == board[row][1] == board[row][2] == user_id:
@@ -35,7 +38,11 @@ def check_win(user_id):
     if board[0][2] == board[1][1] == board[2][0] == user_id:
         return user_id
 
-    return None
+    # Check if the board is full
+    if np.all(board):
+        return 0  # Tie
+    else:
+        return None  # Free spaces
 
 
 def get_user_input(user_id):
@@ -122,7 +129,6 @@ def minimax(board, depth, maximizing):
 board = np.zeros(shape=(3, 3), dtype=int)
 
 symbols = ["X", "O"]
-positions_free = board.size
 
 human = 1  # 'X'
 ai = 2  # 'O'
@@ -132,31 +138,39 @@ scores = {
     0: 0
 }
 
-# Game Loop
-game_on = True
-while game_on:
-    for user in [human, ai]:
-        if user == human:
-            while True:
-                row, col = get_user_input(user)
-                if row < 0 or row > 2 or col < 0 or col > 2:
-                    print('Invalid value. Try again.')
-                elif board[row][col] != 0:
-                    print("That position is already taken.")
-                else:
-                    break
-        else:
-            row, col = ai_best_move()
-            print(f'AI move: {row} {col}')
-        board[row][col] = user
-        positions_free -= 1
-        draw_board()
-        winner = check_win(user)
-        if winner == user:
-            print(f"Player {symbols[user - 1]} wins!")
-            game_on = False
-            break
-        if positions_free == 0:
-            print("It's a tie!")
-            game_on = False
-            break
+
+def main():
+    # Game Loop
+    positions_free = board.size
+    game_on = True
+
+    while game_on:
+        for user in [human, ai]:
+            if user == human:
+                while True:
+                    row, col = get_user_input(user)
+                    if row < 0 or row > 2 or col < 0 or col > 2:
+                        print('Invalid value. Try again.')
+                    elif board[row][col] != 0:
+                        print("That position is already taken.")
+                    else:
+                        break
+            else:
+                row, col = ai_best_move()
+                print(f'AI move: {row} {col}')
+            board[row][col] = user
+            positions_free -= 1
+            draw_board()
+            winner = check_win(user)
+            if winner == user:
+                print(f"Player {symbols[user - 1]} wins!")
+                game_on = False
+                break
+            if positions_free == 0:
+                print("It's a tie!")
+                game_on = False
+                break
+
+
+if __name__ == "__main__":
+    main()
