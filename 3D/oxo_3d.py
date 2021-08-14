@@ -102,26 +102,33 @@ def draw_board():
 cube = np.zeros(shape=(4, 4, 4), dtype=int)
 
 symbols = ["X", "O"]
-positions_free = cube.size
 
-# Game Loop
-game_on = True
-while game_on:
-    for user in [1]:
-        pln, row, col = get_user_input(user)
-        while cube[pln][row][col] != 0:
-            print("That position is already taken.")
+
+def main():
+    positions_free = cube.size
+
+    # Game Loop
+    game_on = True
+    while game_on:
+        for user in [1]:
             pln, row, col = get_user_input(user)
-        cube[pln][row][col] = user
-        positions_free -= 1
-        cls()
-        draw_board()
-        winner = check_win(user)
-        if winner == user:
-            print(f"Player {symbols[user - 1]} wins!")
-            game_on = False
-            break
-        if positions_free == 0:
-            print("It's a draw!")
-            game_on = False
-            break
+            while cube[pln][row][col] != 0:
+                print("That position is already taken.")
+                pln, row, col = get_user_input(user)
+            cube[pln][row][col] = user
+            positions_free -= 1
+            cls()
+            draw_board()
+            winner = check_win(user)
+            if winner == user:
+                print(f"Player {symbols[user - 1]} wins!")
+                game_on = False
+                break
+            if positions_free == 0:
+                print("It's a draw!")
+                game_on = False
+                break
+
+
+if __name__ == "__main__":
+    main()

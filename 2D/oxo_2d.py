@@ -11,32 +11,29 @@ def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def check_win(user_id):
+def check_win():
     """
     Check for a winning combination
 
-    :param user_id: player ID
-    :return: None if no winner, otherwise user_id
+    :return: Value of the winning pieces, zero if a tie, None if board is not full and no winner
     """
-
-
 
     # Rows
     for row in range(3):
-        if board[row][0] == board[row][1] == board[row][2] == user_id:
-            return user_id
+        if board[row][0] == board[row][1] and board[row][0] == board[row][2]:
+            return board[row][0]
 
     # Columns
     for col in range(3):
-        if board[0][col] == board[1][col] == board[2][col] == user_id:
-            return user_id
+        if board[0][col] == board[1][col] and board[0][col] == board[2][col]:
+            return board[0][col]
 
     # Diagonals
-    if board[0][0] == board[1][1] == board[2][2] == user_id:
-        return user_id
+    if board[0][0] == board[1][1] and board[0][0] == board[2][2]:
+        return board[0][0]
 
-    if board[0][2] == board[1][1] == board[2][0] == user_id:
-        return user_id
+    if board[0][2] == board[1][1] and board[0][2] == board[2][0]:
+        return board[0][2]
 
     # Check if the board is full
     if np.all(board):
@@ -73,7 +70,7 @@ def ai_best_move():
     # minimax algorithm
 
     # AI to make it's move
-    depth = 0  # number of moves to analyze in the tree (i.e. think depth moves ahead)
+    depth = 3  # number of moves to analyze in the tree (i.e. think depth moves ahead)
     best_score = -inf
     for i in range(3):
         for j in range(3):
@@ -94,32 +91,35 @@ def ai_best_move():
 def minimax(board, depth, maximizing):
     # Coding Challenge 154: Tic Tac Toe AI with Minimax Algorithm
     # https://www.youtube.com/watch?v=trKjYdBASyQ
-    result = check_win(human)
-    if result:
-        return scores[result]
 
     if maximizing:  # ai is the maximizing player
-        best_score = -inf
+        result = check_win(ai)
+        if result:
+            return scores[result]
         # if depth < 0:
         #     return best_score
+        best_score = -inf
         for i in range(3):
             for j in range(3):
                 if board[i][j] == 0:  # is the spot free
                     board[i][j] = ai  # make a test move
-                    score = minimax(board, depth + 1, maximizing=False)  # next player is the ai (minimizing)
+                    score = minimax(board, depth - 1, maximizing=False)  # next player is the ai (minimizing)
                     board[i][j] = 0  # undo the test move
                     best_score = max(score, best_score)
         return best_score
 
     else:  # human is the minimizing player
-        best_score = inf
+        result = check_win(human)
+        if result:
+            return scores[result]
         # if depth < 0:
         #     return best_score
+        best_score = inf
         for i in range(3):
             for j in range(3):
                 if board[i][j] == 0:  # is the spot free
                     board[i][j] = human  # make a test move
-                    score = minimax(board, depth + 1, maximizing=True)  # next player is the human (maximizing)
+                    score = minimax(board, depth - 1, maximizing=True)  # next player is the human (maximizing)
                     board[i][j] = 0  # undo the test move
                     best_score = min(score, best_score)
         return best_score
