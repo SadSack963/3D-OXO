@@ -51,5 +51,26 @@ class TestWin(unittest.TestCase):
         self.assertEqual(0, oxo_2d.check_win(), "Should be 0")
 
 
+class TestMinimax(unittest.TestCase):
+
+    def test_last_move(self):
+        print('test_last_move')
+        oxo_2d.board = np.array([
+            [1, 2, 1],
+            [1, 1, 2],
+            [2, 0, 2]
+        ])
+        self.assertEqual((2, 1), oxo_2d.ai_best_move(), "Should be (2, 1)")
+
+    def test_2nd_last_move(self):
+        print('test_2nd_last_move')
+        oxo_2d.board = np.array([
+            [1, 1, 2],
+            [0, 0, 1],
+            [2, 2, 1]
+        ])
+        self.assertEqual((1, 1), oxo_2d.ai_best_move(), "Should be (1, 1)")
+
+
 if __name__ == "__main__":
     unittest.main()
