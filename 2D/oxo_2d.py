@@ -21,19 +21,23 @@ def check_win():
     # Rows
     for row in range(3):
         if board[row][0] == board[row][1] and board[row][0] == board[row][2]:
-            return board[row][0]
+            if board[row][0] != 0:
+                return board[row][0]
 
     # Columns
     for col in range(3):
         if board[0][col] == board[1][col] and board[0][col] == board[2][col]:
-            return board[0][col]
+            if board[0][col] != 0:
+                return board[0][col]
 
     # Diagonals
     if board[0][0] == board[1][1] and board[0][0] == board[2][2]:
-        return board[0][0]
+        if board[0][0] != 0:
+            return board[0][0]
 
     if board[0][2] == board[1][1] and board[0][2] == board[2][0]:
-        return board[0][2]
+        if board[0][2] != 0:
+            return board[0][2]
 
     # Check if the board is full
     if np.all(board):
@@ -50,7 +54,7 @@ def get_user_input(user_id):
     :return: (row, column)
     """
     # Get user input
-    position = input(f"Player {symbols[user_id - 1]} position (row col): ").strip().split()
+    position = input(f"Player {symbols[user_id]} position (row col): ").strip().split()
     # Check for two values
     if len(position) != 2:
         return -1, -1
@@ -69,57 +73,52 @@ def draw_board():
 def ai_best_move():
     # minimax algorithm
 
-    # AI to make it's move
+    # AI tests moves and uses minimax to decide upon the best move
     depth = 3  # number of moves to analyze in the tree (i.e. think depth moves ahead)
     best_score = -inf
+    best_move = [0, 0]
     for i in range(3):
         for j in range(3):
             if board[i][j] == 0:  # check that the spot is free
                 board[i][j] = ai  # make a test move
-                score = minimax(board, depth, maximizing=False)  # next player is the human (maximizing)
-                print(i, j, score)
+                # AI is the Maximizing player
+                # Human is the Minimizing player
+                score = minimax(board, depth, maximizing=False)  # Human is the next player
                 board[i][j] = 0  # undo the test move
                 if score > best_score:
                     best_score = score
                     best_move = [i, j]
 
     return best_move[0], best_move[1]
-    # board[best_move[0]][best_move[1]] = ai
-    # current_player = human
 
 
-def minimax(board, depth, maximizing):
+def minimax(board, depth, maximizing, debug=False):
     # Coding Challenge 154: Tic Tac Toe AI with Minimax Algorithm
     # https://www.youtube.com/watch?v=trKjYdBASyQ
+    result = check_win()
+    if result:
+        return scores[result]
+    if depth == 0:
+        return 0
 
     if maximizing:  # ai is the maximizing player
-        result = check_win(ai)
-        if result:
-            return scores[result]
-        # if depth < 0:
-        #     return best_score
         best_score = -inf
         for i in range(3):
             for j in range(3):
                 if board[i][j] == 0:  # is the spot free
                     board[i][j] = ai  # make a test move
-                    score = minimax(board, depth - 1, maximizing=False)  # next player is the ai (minimizing)
+                    score = minimax(board, depth - 1, maximizing=False)  # Human is the next player
                     board[i][j] = 0  # undo the test move
                     best_score = max(score, best_score)
         return best_score
 
     else:  # human is the minimizing player
-        result = check_win(human)
-        if result:
-            return scores[result]
-        # if depth < 0:
-        #     return best_score
         best_score = inf
         for i in range(3):
             for j in range(3):
                 if board[i][j] == 0:  # is the spot free
                     board[i][j] = human  # make a test move
-                    score = minimax(board, depth - 1, maximizing=True)  # next player is the human (maximizing)
+                    score = minimax(board, depth - 1, maximizing=True)  # AI is the next player
                     board[i][j] = 0  # undo the test move
                     best_score = min(score, best_score)
         return best_score
@@ -128,7 +127,7 @@ def minimax(board, depth, maximizing):
 # Define the matrix representing the game board
 board = np.zeros(shape=(3, 3), dtype=int)
 
-symbols = ["X", "O"]
+symbols = {1: "X", 2: "O"}
 
 human = 1  # 'X'
 ai = 2  # 'O'
@@ -141,7 +140,6 @@ scores = {
 
 def main():
     # Game Loop
-    positions_free = board.size
     game_on = True
 
     while game_on:
@@ -159,17 +157,18 @@ def main():
                 row, col = ai_best_move()
                 print(f'AI move: {row} {col}')
             board[row][col] = user
-            positions_free -= 1
             draw_board()
-            winner = check_win(user)
+            winner = check_win()
+            print(f'{winner = }')
             if winner == user:
-                print(f"Player {symbols[user - 1]} wins!")
+                print(f"Player {symbols[user]} wins!")
                 game_on = False
                 break
-            if positions_free == 0:
+            if winner == 0:
                 print("It's a tie!")
                 game_on = False
                 break
+    print('Thanks for playing.')
 
 
 if __name__ == "__main__":
