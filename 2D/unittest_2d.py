@@ -62,14 +62,32 @@ class TestMinimax(unittest.TestCase):
         ])
         self.assertEqual((2, 1), oxo_2d.ai_best_move(), "Should be (2, 1)")
 
-    def test_2nd_last_move(self):
-        print('test_2nd_last_move')
+    def test_block_win_move(self):
+        print('test_block_win_move')
         oxo_2d.board = np.array([
             [1, 1, 2],
             [0, 0, 1],
             [2, 2, 1]
         ])
         self.assertEqual((1, 1), oxo_2d.ai_best_move(), "Should be (1, 1)")
+
+    def test_block_move(self):
+        print('test_block_move')
+        oxo_2d.board = np.array([
+            [1, 2, 0],
+            [1, 0, 0],
+            [0, 0, 0]
+        ])
+        self.assertEqual((2, 0), oxo_2d.ai_best_move(), "Should be (2, 0)")
+
+    def test_win_move(self):
+        print('test_win_move')
+        oxo_2d.board = np.array([
+            [1, 2, 1],
+            [1, 2, 0],
+            [0, 0, 0]
+        ])
+        self.assertEqual((2, 1), oxo_2d.ai_best_move(), "Should be (2, 1)")
 
 
 if __name__ == "__main__":
