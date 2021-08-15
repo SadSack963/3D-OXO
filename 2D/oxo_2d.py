@@ -81,7 +81,7 @@ def check_win():
 def ai_best_move():
     # minimax algorithm
 
-    debug = False
+    debug = True
 
     # AI tests moves one by one and uses minimax to look ahead decide upon the best move
     max_depth = 10  # number of moves to analyze in the tree (i.e. think depth moves ahead)
@@ -112,14 +112,16 @@ def minimax(board, depth, max_depth, maximizing, debug=False):
     if depth == max_depth:
         if debug:
             print(f'Maximum Depth reached. Score = 0.')
-        return 0  # Tie
+        return 0  # Assume a Tie
     result = check_win()
     if result:
         # subtract the depth so that we can differentiate between winning moves to find the fastest win
-        if scores[result] >= 0:
-            weighted_score = scores[result] - depth
+        if scores[result] > 0:
+            weighted_score = scores[result] - depth  # AI Win
+        elif scores[result] < 0:
+            weighted_score = scores[result] + depth  # Human Win
         else:
-            weighted_score = scores[result] + depth
+            weighted_score = scores[result]  # Tie
         if debug:
             print(f'{board}\n{scores[result] = }, {depth = }\n{weighted_score = }\n')
         return weighted_score

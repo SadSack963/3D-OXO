@@ -39,7 +39,7 @@ class TestWin(unittest.TestCase):
             [0, 2, 0],
             [0, 0, 0]
         ])
-        self.assertEqual(None, oxo_2d.check_win(), "Should be None")
+        self.assertIsNone(oxo_2d.check_win(), "Should be None")
 
     def test_win_tie(self):
         print('test_win_tie')
@@ -79,6 +79,15 @@ class TestMinimax(unittest.TestCase):
             [0, 0, 0]
         ])
         self.assertEqual((2, 0), oxo_2d.ai_best_move(), "Should be (2, 0)")
+
+    def test_block_move_2(self):
+        print('test_block_move_2')
+        oxo_2d.board = np.array([
+            [2, 0, 1],
+            [1, 1, 0],
+            [2, 0, 0]
+        ])
+        self.assertEqual((1, 2), oxo_2d.ai_best_move(), "Should be (1, 2)")
 
     def test_win_move(self):
         print('test_win_move')
