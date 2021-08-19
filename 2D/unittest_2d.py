@@ -50,6 +50,15 @@ class TestWin(unittest.TestCase):
         ])
         self.assertEqual(0, oxo_2d.check_win(), "Should be 0")
 
+    def test_win_tie_2(self):
+        print('test_win_tie')
+        oxo_2d.board = np.array([
+            [2, 2, 1],
+            [1, 1, 2],
+            [2, 1, 1]
+        ])
+        self.assertEqual(0, oxo_2d.check_win(), "Should be 0")
+
 
 class TestMinimax(unittest.TestCase):
 
