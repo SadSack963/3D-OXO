@@ -94,7 +94,7 @@ def get_user_input(user_id):
 
 
 def draw_board():
-    # TODO: Draw the board (3D)
+    # TODO: Draw the test_state (3D)
     print(cube)
 
 

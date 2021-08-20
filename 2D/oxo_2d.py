@@ -4,6 +4,7 @@
 from math import inf
 import numpy as np
 import os
+import time
 
 
 def cls():
@@ -25,7 +26,7 @@ def human_move(player):
 
 def get_user_input(player):
     """
-    Accepts a space separated board position input by the player, and returns the integer values
+    Accepts a space separated test_state position input by the player, and returns the integer values
 
     :param player: player ID
     :return: (row, column)
@@ -43,7 +44,7 @@ def get_user_input(player):
 
 
 def draw_board():
-    # TODO: Draw the board (2D)
+    # TODO: Draw the test_state (2D)
     print(board)
 
 
@@ -51,7 +52,7 @@ def check_win():
     """
     Check for a winning combination
 
-    :return: Value of the winning pieces, zero if a tie, None if board is not full and no winner
+    :return: Value of the winning pieces, zero if a tie, None if test_state is not full and no winner
     """
 
     # Rows
@@ -71,73 +72,58 @@ def check_win():
     if board[0][2] != 0 and board[0][2] == board[1][1] and board[0][2] == board[2][0]:
         return board[0][2]
 
-    # Check if the board is full
+    # Check if the test_state is full
     if np.all(board):
         return 0  # Tie
     else:
         return None  # Free spaces remaining
 
 
-def ai_best_move(debug=False):
+def ai_best_move():
     # minimax algorithm
-
     # https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/
-    # The AI we play against is seeking two things - to maximize its own score and to minimize ours.
-    #
-    # It is necessary that the evaluation function contains as much relevant information as possible,
-    # but on the other hand - since it's being calculated many times - it needs to be simple.
-    # Usually it maps the set of all possible positions into symmetrical segment:
-    # F:P→[−M,M]
-    # Value of M is being assigned only to leaves where the winner is the first player,
-    # and value -M to leaves where the winner is the second player.
-    # In zero-sum games, the value of the evaluation function has an opposite meaning -
-    # what's better for the first player is worse for the second, and vice versa.
-    # Hence, the value for symmetric positions (if players switch roles) should be different only by sign.
 
     # AI tests moves one by one and uses minimax to look ahead and decide upon the best move
-    max_depth = 10  # number of moves to analyze in the tree (i.e. think "depth" moves ahead)
     best_score = -inf
-    best_move = [0, 0]  # This is only here to define best_move to remove warning
+    best_move = [0, 0]  # This is only here to define best_move to remove warning below
+    alpha = -inf
+    beta = inf
+
+    start_time = time.time_ns()
     for i in range(3):
         for j in range(3):
             if board[i][j] == 0:  # check that the spot is free
-                if debug:
-                    print(f'Starting Board:\n{board}\n')
-                board[i][j] = players['ai']  # make a test move
-                if debug:
-                    print(f'{board}\nAI Test Move: {i} {j}\n')
+                board[i][j] = players['ai2']  # make a test move
                 # AI is the Maximizing player
                 # Human is the Minimizing player
-                score = minimax(board, 0, max_depth, maximizing=False, debug=debug)  # Human is the next player
+                score = minimax(board, alpha, beta, maximizing=False)  # Human is the next player
                 board[i][j] = 0  # undo the test move
                 if score > best_score:
                     best_score = score
                     best_move = (i, j)
+    stop_time = time.time_ns()
+    time_ns = stop_time - start_time
+    print(f'{time_ns = }')
+    # minimax:
+    #     First move time = 968717800 ns
+    # minimax plus alpha-beta:
+    #     First move time = 102204800 ns
     return best_move
 
 
-def minimax(board, depth, max_depth, maximizing, debug=False):
+def minimax(board, alpha, beta, maximizing):
     # Coding Challenge 154: Tic Tac Toe AI with Minimax Algorithm
     # https://www.youtube.com/watch?v=trKjYdBASyQ
 
     # https://www.youtube.com/watch?v=fT3YWCKvuQE
     # https://github.com/kying18/tic-tac-toe
-    # count the number of zero values in the board
+    # count the number of zero values in the test_state
     # add 1 because this is used as a multiplier and should never be zero
     free_spaces = 1 + np.count_nonzero(board == 0)
 
     result = check_win()  # check_win() returns 0 = Tie, 1 = Player 1 win, 2 = Player 2 win, or None
-    # if depth == max_depth:
-    #     if debug:
-    #         print(f'Maximum Depth reached.')
-    #     if result is not None:
-    #         return result
-    #     else:
-    #         return 0  # Assume a Tie
     if result is not None:  # STUPID BOY!! I was using "if result:" - it took me two days to find this error!
         weighted_score = scores[result] * free_spaces
-        if debug:
-            print(f'{board}\n{scores[result] = }, {free_spaces = }, {depth = }\n{weighted_score = }\n')
         return weighted_score
 
     if maximizing:  # ai is the maximizing player (looking for the highest score)
@@ -145,14 +131,17 @@ def minimax(board, depth, max_depth, maximizing, debug=False):
         for i in range(3):
             for j in range(3):
                 if board[i][j] == 0:  # is the spot free
-                    board[i][j] = players['ai']  # make a test move
-                    if debug:
-                        print(f'{board}\nAI Test Move: {i} {j}\n')
-                    score = minimax(board, depth + 1, max_depth, maximizing=False, debug=debug)  # AI is the next player
-                    if debug:
-                        print(f'{score = }\nAI Test Move: {i} {j}\n')
+                    board[i][j] = players['ai2']  # make a test move
+                    score = minimax(board, alpha, beta, maximizing=False)  # AI is the next player
                     board[i][j] = 0  # undo the test move
                     best_score = max(score, best_score)
+
+                    # Maximizing: check score against beta, update alpha
+                    if best_score >= beta:
+                        return best_score
+                    if best_score > alpha:
+                        alpha = best_score
+
         return best_score
 
     else:  # human is the minimizing player (looking for the lowest score)
@@ -160,14 +149,17 @@ def minimax(board, depth, max_depth, maximizing, debug=False):
         for i in range(3):
             for j in range(3):
                 if board[i][j] == 0:  # is the spot free
-                    board[i][j] = players['human']  # make a test move
-                    if debug:
-                        print(f'{board}\nHuman Test Move: {i} {j}\n')
-                    score = minimax(board, depth + 1, max_depth, maximizing=True, debug=debug)  # Human is the next player
-                    if debug:
-                        print(f'{score = }\nHuman Test Move: {i} {j}\n')
+                    board[i][j] = players['human1']  # make a test move
+                    score = minimax(board, alpha, beta, maximizing=True)  # Human is the next player
                     board[i][j] = 0  # undo the test move
                     best_score = min(score, best_score)
+
+                    # Minimizing: check score against alpha, update beta
+                    if best_score <= alpha:
+                        return best_score
+                    if best_score < beta:
+                        beta = best_score
+
         return best_score
 
 
@@ -178,7 +170,7 @@ def main():
     while game_on:
         for player in players:
             current_player = players[player]
-            if current_player == players['human']:
+            if current_player == players['human1']:
                 row, col = human_move(current_player)
             else:
                 row, col = ai_best_move()
@@ -200,25 +192,30 @@ def main():
 
 # CONSTANTS
 players = {
-    "human": 1,
-    "ai": 2,
+    "human1": 1,
+    "human2": 2,
+    "ai1": 1,
+    "ai2": 2,
 }
 
 symbols = {
-    players['human']: "X",
-    players['ai']: "O",
+    players['human1']: "X",
+    players['human2']: "O",
+    players['ai1']: "X",
+    players['ai2']: "O",
 }
 
-# AI is the Maximizing player
-# Human is the Minimizing player
 scores = {
     0: 0,  # Tie
-    players['human']: -10,
-    players['ai']: 10,
+    players['human1']: -10,
+    players['human2']: 10,
+    players['ai1']: -10,
+    players['ai2']: 10,
 }
 
+
 if __name__ == "__main__":
-    # Define the matrix representing the game board
+    # Define the matrix representing the game test_state
     board = np.zeros(shape=(3, 3), dtype=int)
     print(board)
 
