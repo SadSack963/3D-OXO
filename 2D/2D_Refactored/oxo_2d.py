@@ -91,7 +91,7 @@ class AIPlayer:
 
     def get_move(self):
         """
-        Finds the best possible move for the AI player using the minimax algorithm plus alpha-beta. \n
+        Finds the best possible move for the AI player using the minimax algorithm with alpha-beta pruning. \n
 
         https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/
 
@@ -148,7 +148,7 @@ class AIPlayer:
         elif result == 0:
             return 0
 
-        if maximizing:  # looking for the highest score
+        if maximizing:  # Maximizing: looking for the highest score
             best_score = -inf
             for i in range(3):
                 for j in range(3):
@@ -166,7 +166,7 @@ class AIPlayer:
 
             return best_score
 
-        else:  # looking for the lowest score
+        else:  # Minimizing: looking for the lowest score
             best_score = inf
             for i in range(3):
                 for j in range(3):
