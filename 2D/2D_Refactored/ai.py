@@ -1,4 +1,3 @@
-
 from math import inf
 import numpy as np
 from evaluate_board_state import evaluate_board
@@ -12,19 +11,20 @@ class AIPlayer:
         self.opposition_score = -1
         self.row = -1
         self.col = -1
-        self.board = 0  # This line simply to prevent warning "Instance attribute board defined outside __init__"
+        self.game_state = 0  # This line simply to prevent warning "Instance attribute game_state defined outside __init__"
 
-    def get_move(self, board):
+    def get_move(self, game_state: np.ndarray):
         """
         Finds the best possible move for the AI player using the minimax algorithm with alpha-beta pruning. \n
 
-        https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/
+        https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/\n
+        The selected move is stored in self.row, self,col
 
-        :param
-        :return: selected move: (row, column)
+        :param: game_state: np.ndarray - current state of the game
+        :return: nothing
         """
 
-        self.board = board
+        self.game_state = game_state
 
         # https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/
 
@@ -36,10 +36,10 @@ class AIPlayer:
 
         for i in range(3):
             for j in range(3):
-                if board[i][j] == 0:  # check that the spot is free
-                    board[i][j] = self.value  # make a test move
-                    score = self.minimax(self.board, alpha, beta, maximizing=False)  # next player is Minimizing player
-                    board[i][j] = 0  # undo the test move
+                if game_state[i][j] == 0:  # check that the spot is free
+                    game_state[i][j] = self.value  # make a test move
+                    score = self.minimax(self.game_state, alpha, beta, maximizing=False)  # next player is Minimizing player
+                    game_state[i][j] = 0  # undo the test move
                     if score > best_score:
                         best_score = score
                         best_move = (i, j)
@@ -49,25 +49,25 @@ class AIPlayer:
 
     def minimax(self, test_state: np.ndarray, alpha: float, beta: float, maximizing: bool):
         """
-        Test moves at every remaining position on the board to find the best possible move. \n
+        Test moves at every remaining position on the game_state to find the best possible move. \n
         Maximizing player (current AI player) looks for the highest score. \n
         Minimizing player (opposition) looks for the lowest score. \n
 
         https://www.youtube.com/watch?v=fT3YWCKvuQE \n
         https://github.com/kying18/tic-tac-toe
 
-        :param test_state: state of the board during the test move
+        :param test_state: state of the game_state during the test move
         :param alpha: best (highest) score so far for maximizing player
         :param beta: best (lowest) score so far for minimizing player
         :param maximizing: this player is maximizing (or minimizing)
         :return: best score for the current test move
         """
 
-        # count the number of zero values in the board
+        # count the number of zero values in the game_state
         # add 1 because this is used as a multiplier and should never be zero
         free_spaces = 1 + np.count_nonzero(test_state == 0)
 
-        # if the test board results in a win or draw, then return the score
+        # if the test game_state results in a win or draw, then return the score
         result = evaluate_board(test_state)  # check_win() returns 0 = Tie, 1 = Player 1 win, 2 = Player 2 win, or None
         if result == self.value:
             return self.score * free_spaces

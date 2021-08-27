@@ -7,12 +7,22 @@ screen = Screen()
 
 
 def screen_setup():
+    """
+    Basic screen setup
+
+    :return: nothing
+    """
     screen.setup(700, 700, 400, 300)
     screen.colormode(255)
     screen.bgcolor(60, 60, 60)
 
 
 def draw_outline():
+    """
+    Draw the game_state grid layout
+
+    :return: nothing
+    """
     screen.tracer(0)
     tim = Turtle()
     tim.hideturtle()
@@ -40,7 +50,14 @@ def draw_outline():
     screen.tracer(1)
 
 
-def draw_x(row, col):
+def draw_x(row: int, col: int):
+    """
+    Draw an X on the screen
+
+    :param row: x coordinate of the array
+    :param col: y coordinate of the array
+    :return: nothing
+    """
     screen.tracer(0)
     start_x = col * 200 - 270
     start_y = 270 - row * 200
@@ -60,6 +77,13 @@ def draw_x(row, col):
 
 
 def draw_o(row, col):
+    """
+    Draw an O on the screen
+
+    :param row: x coordinate of the array
+    :param col: y coordinate of the array
+    :return: nothing
+    """
     screen.tracer(0)
     start_x = col * 200 - 200
     start_y = 130 - row * 200
@@ -74,7 +98,8 @@ def draw_o(row, col):
     screen.tracer(1)
 
 
-def get_mouse_click_coord(x, y):
+# --------------------------------- TEST CODE ---------------------------------
+def test_get_mouse_click(x, y):
     global last_drawn
     print(x, y)  # mouse coordinates
     if -300 < x < 300 and -300 < y < 300:
@@ -90,18 +115,17 @@ def get_mouse_click_coord(x, y):
         print('Outside grid.')
 
 
-def main():
+def test():
     # Test drawing the screen and using mouse clicks
     screen_setup()
     draw_outline()
     while True:
         sleep(0.5)
-        onscreenclick(get_mouse_click_coord)
         screen.update()
 
 
 if __name__ == '__main__':
-    screen = Screen()
     last_drawn = "O"
-    main()
+    onscreenclick(test_get_mouse_click)
+    test()
     screen.exitonclick()

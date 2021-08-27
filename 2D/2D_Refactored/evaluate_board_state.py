@@ -1,39 +1,55 @@
-
 import numpy as np
 
 
-def evaluate_board(board):
+def evaluate_board(game_state: np.ndarray):
     """
     Check for a winning combination
 
-    :return: Value of the winning pieces, zero if a tie, None if test_state is not full and no winner
+    :param game_state: ndarray - current state of the game
+    :return: Value of the winning player,
+             Zero if a tie,
+             None if the game_state is not full and there is no winner yet
     """
-
     # Rows
     for row in range(3):
-        if board[row][0] != 0 and board[row][0] == board[row][1] and board[row][0] == board[row][2]:
-            return board[row][0]
+        if game_state[row][0] != 0 \
+                and game_state[row][0] == game_state[row][1] \
+                and game_state[row][0] == game_state[row][2]:
+            return game_state[row][0]
 
     # Columns
     for col in range(3):
-        if board[0][col] != 0 and board[0][col] == board[1][col] and board[0][col] == board[2][col]:
-            return board[0][col]
+        if game_state[0][col] != 0 \
+                and game_state[0][col] == game_state[1][col] \
+                and game_state[0][col] == game_state[2][col]:
+            return game_state[0][col]
 
     # Diagonals
-    if board[0][0] != 0 and board[0][0] == board[1][1] and board[0][0] == board[2][2]:
-        return board[0][0]
+    if game_state[0][0] != 0 \
+            and game_state[0][0] == game_state[1][1] \
+            and game_state[0][0] == game_state[2][2]:
+        return game_state[0][0]
 
-    if board[0][2] != 0 and board[0][2] == board[1][1] and board[0][2] == board[2][0]:
-        return board[0][2]
+    if game_state[0][2] != 0 \
+            and game_state[0][2] == game_state[1][1] \
+            and game_state[0][2] == game_state[2][0]:
+        return game_state[0][2]
 
-    # Check if the board is full
-    if np.all(board):
+    # Check if the game_state is full
+    if np.all(game_state):
         return 0  # Tie
     else:
         return None  # Free spaces remaining
 
 
-def check_for_winner(player, board):
+def check_for_winner(player, board: np.ndarray):
+    """
+    Check if there is a winner.
+
+    :param player: Human or AI player
+    :param board: ndarray - current state of the game
+    :return: bool - True if there is a winner or a tie
+    """
     winner = evaluate_board(board)
     if winner:
         print(f"Player {player.value} wins!")
@@ -41,3 +57,4 @@ def check_for_winner(player, board):
     if winner == 0:
         print("It's a tie!")
         return True
+    return False
