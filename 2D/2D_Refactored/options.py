@@ -1,4 +1,4 @@
-from tkinter import Tk, IntVar, Checkbutton, Label, Frame, SUNKEN
+from tkinter import Tk, IntVar, Checkbutton, Label, Frame, Button, SUNKEN
 
 
 TITLE_FONT = ("Sergoe UI", 24, "bold")
@@ -26,9 +26,12 @@ class Options:
         self.player_2_check_ai = IntVar()
         self.player_2_check_ai.set(1)  # Default to checked
 
+        self.player_dict = {}
+
         # Widget Definitions
 
         self.label_title = Label(
+            master=self.window,
             text="Choose Players",
             bg=LIGHT,
             fg="black",
@@ -92,7 +95,7 @@ class Options:
             command=self.player_1_select_ai,
         )
 
-        # ---------------- PLAYER 1 CHOICES ----------------
+        # ---------------- PLAYER 2 CHOICES ----------------
 
         self.frame_player_2_frame = Frame(
             master=self.window,
@@ -136,10 +139,21 @@ class Options:
             command=self.player_2_select_ai,
         )
 
+        # ---------------- BUTTON TO START THE GAME ----------------
+
+        self.button_start = Button(
+            master=self.window,
+            text='START GAME',
+            bg='blue',
+            fg='white',
+            font=LARGE_FONT,
+            command=self.get_players,
+        )
+
         # Grid Layout
         self.label_title.grid(row=0, column=0, columnspan=3, pady=10)
 
-        self.frame_player_1.grid(row=1, column=0, sticky='EW', pady=(0, 30))
+        self.frame_player_1.grid(row=1, column=0, sticky='EW', pady=(0, 10))
         self.label_player_1.grid(row=0, column=0, sticky='EW')
         self.checkbutton_player_1_human.grid(row=1, column=0, pady=5)
         self.checkbutton_player_1_ai.grid(row=2, column=0, pady=5)
@@ -147,10 +161,12 @@ class Options:
         self.frame_separator.grid(row=1, column=1)
         self.label_separator.grid(row=0, column=0)
 
-        self.frame_player_2_frame.grid(row=1, column=2, sticky='EW', pady=(0, 30))
+        self.frame_player_2_frame.grid(row=1, column=2, sticky='EW', pady=(0, 10))
         self.label_player_2.grid(row=0, column=0, sticky='EW')
         self.checkbutton_player_2_human.grid(row=1, column=0, pady=5)
         self.checkbutton_player_2_ai.grid(row=2, column=0, pady=5)
+
+        self.button_start.grid(row=2, column=0, columnspan=3, pady=(10, 30))
 
         self.window.mainloop()
 
@@ -171,22 +187,25 @@ class Options:
         self.checkbutton_player_2_ai.select()
 
     def get_players(self):
-        player_dict = {}
-        if self.player_1_check_human.get()\
-                and not self.player_1_check_ai.get():
-            player_dict['player_1'] = 'human'
-        if not self.player_1_check_human.get()\
-                and self.player_1_check_ai.get():
-            player_dict['player_1'] = 'ai'
+        if self.player_1_check_human.get() == 1\
+                and self.player_1_check_ai.get() == 0:
+            self.player_dict['player_1'] = 'human'
+        if self.player_1_check_human.get() == 0\
+                and self.player_1_check_ai.get() == 1:
+            self.player_dict['player_1'] = 'ai'
 
-        if self.player_2_check_human.get()\
-                and not self.player_2_check_ai.get():
-            player_dict['player_2'] = 'human'
-        if not self.player_2_check_human.get()\
-                and self.player_2_check_ai.get():
-            player_dict['player_2'] = 'ai'
+        if self.player_2_check_human.get() == 1\
+                and self.player_2_check_ai.get() == 0:
+            self.player_dict['player_2'] = 'human'
+        if self.player_2_check_human.get() == 0\
+                and self.player_2_check_ai.get() == 1:
+            self.player_dict['player_2'] = 'ai'
+        print(self.player_dict)
+        self.close()
 
-        return player_dict
+    def close(self):
+        self.window.quit()  # This allows the player_dict to be accessed by the main program
+        self.window.destroy()  # Then destroy this script window
 
 
 if __name__ == '__main__':

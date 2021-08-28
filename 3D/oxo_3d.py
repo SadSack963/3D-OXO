@@ -6,7 +6,7 @@ import os
 
 
 def cls():
-    # Cross-platform clear screen
+    # Cross-platform clear window
     os.system('cls' if os.name == 'nt' else 'clear')
 
 

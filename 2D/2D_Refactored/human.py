@@ -1,7 +1,7 @@
 from math import ceil
 from turtle import onscreenclick
-from draw_screen import screen
 import numpy as np
+from time import sleep
 
 
 class HumanPlayer:
@@ -10,12 +10,12 @@ class HumanPlayer:
         self.row = -1
         self.col = -1
 
-    def get_move(self, game_state: np.ndarray):
+    def get_move(self, screen):
         """
         Get a valid grid selection.\n
         The selected move is stored in self.row, self,col
 
-        :param game_state: ndarray - current state of the game
+        :param screen - update the window while looking for mouse clicks
         :return: nothing
         """
         # game_state is not used by the human player, but it is used by the AI player
@@ -23,7 +23,7 @@ class HumanPlayer:
         self.col = -1
         onscreenclick(self.get_mouse_click_coord)
         while self.row == -1 or self.col == -1:
-            screen.update()
+            screen.window.update()
 
     def get_mouse_click_coord(self, x, y):
         """
