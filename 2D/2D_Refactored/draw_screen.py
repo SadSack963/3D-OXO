@@ -4,6 +4,9 @@ from time import sleep
 
 
 screen = Screen()
+DARK = (60, 60, 60)
+
+# TODO: Replace hard-coded dimensions with values derived from the screen size
 
 
 def screen_setup():
@@ -14,7 +17,7 @@ def screen_setup():
     """
     screen.setup(700, 700, 400, 300)
     screen.colormode(255)
-    screen.bgcolor(60, 60, 60)
+    screen.bgcolor(DARK)
 
 
 def draw_outline():

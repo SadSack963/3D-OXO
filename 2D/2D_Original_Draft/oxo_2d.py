@@ -44,7 +44,7 @@ def get_user_input(player):
 
 
 def draw_board():
-    # TODO: Draw the test_state (2D)
+    # Draw the test_state (2D)
     print(board)
 
 

@@ -6,6 +6,7 @@ from human import HumanPlayer
 from ai import AIPlayer
 from evaluate_board_state import check_for_winner
 from draw_screen import screen_setup, draw_outline, draw_x, draw_o, screen
+from options import Options
 
 
 def draw_grid():
@@ -20,6 +21,10 @@ def draw_grid():
 
 def choose_players():
     # TODO: Choose Player Type
+    options = Options()
+    print(options)
+
+    exit()
     return HumanPlayer(1), HumanPlayer(2)
 
     # return HumanPlayer(1), AIPlayer(2)
@@ -76,7 +81,5 @@ def main():
 if __name__ == "__main__":
     # Define the matrix representing the game game_state
     board = np.zeros(shape=(3, 3), dtype=int)
-    print(board)
-
     main()
     screen.exitonclick()
