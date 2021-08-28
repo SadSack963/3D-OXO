@@ -14,7 +14,7 @@ class Options:
         self.window = Tk()
         self.window.title('Options')
         self.window.config(padx=30, pady=0, bg=LIGHT)
-        self.window.wm_attributes()
+        # self.window.wm_attributes()
 
         self.player_1_check_human = IntVar()
         self.player_1_check_human.set(1)  # Default to checked
@@ -210,3 +210,5 @@ class Options:
 
 if __name__ == '__main__':
     options = Options()
+    players = options.player_dict
+    print(players)

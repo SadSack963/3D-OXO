@@ -11,19 +11,20 @@ class AIPlayer:
         self.opposition_score = -1
         self.row = -1
         self.col = -1
-        self.game_state = 0  # This line simply to prevent warning "Instance attribute game_state defined outside __init__"
+        self.game_state = 0  # This line is simply to prevent warning "Instance attribute game_state defined outside __init__"
 
-    def get_move(self, game_state: np.ndarray):
+    def get_move(self, screen, game_state: np.ndarray):
         """
         Finds the best possible move for the AI player using the minimax algorithm with alpha-beta pruning. \n
 
         https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/\n
         The selected move is stored in self.row, self,col
 
-        :param: game_state: np.ndarray - current state of the game
+        :param game_state:
+        :param screen: update the window while looking for mouse clicks
         :return: nothing
         """
-
+        # screen is not used by the AI player, but it is used by the human player
         self.game_state = game_state
 
         # https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/
