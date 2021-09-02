@@ -1,3 +1,4 @@
+import global_vars
 import numpy as np
 
 
@@ -5,10 +6,11 @@ def evaluate_board(game_state: np.ndarray):
     """
     Check for a winning combination
 
-    :param game_state: ndarray - current state of the game
-    :return: Value of the winning player,
-             Zero if a tie,
-             None if the game_state is not full and there is no winner yet
+    :param game_state: current state of the game
+    :return: 0 = Tie,
+             1 = Player 1 win,
+             2 = Player 2 win,
+             or None if the game_state is not full and there is no winner yet
     """
     # Rows
     for row in range(3):
@@ -42,19 +44,21 @@ def evaluate_board(game_state: np.ndarray):
         return None  # Free spaces remaining
 
 
-def check_for_winner(player, board: np.ndarray):
+def check_for_winner(player):
     """
     Check if there is a winner.
 
     :param player: Human or AI player
-    :param board: ndarray - current state of the game
     :return: bool - True if there is a winner or a tie
     """
-    winner = evaluate_board(board)
+
+    winner = evaluate_board(global_vars.board)
     if winner:
-        print(f"Player {player.value} wins!")
+        # print(f"Player {player.value} wins!")
+        global_vars.player_msg.message_time(f"Player {player.value} wins!", time=2)
         return True
     if winner == 0:
-        print("It's a tie!")
+        # print("It's a tie!")
+        global_vars.player_msg.message_time("It's a tie!", time=2)
         return True
     return False

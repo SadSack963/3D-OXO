@@ -8,6 +8,36 @@ LIGHT = '#7c7c7c'
 DARK = '#3c3c3c'
 
 
+"""
+
+Using a Tkinter Button inside a Python Turtle Program
+See https://compucademy.net/python-turtle-graphics-and-tkinter-gui-programming/
+
+import turtle
+import tkinter as tk
+
+
+def do_stuff():
+    for color in ["red", "yellow", "green"]:
+        my_lovely_turtle.color(color)
+        my_lovely_turtle.right(120)
+
+
+def press():
+    do_stuff()
+
+
+if __name__ == "__main__":
+    screen = turtle.Screen()
+    screen.bgcolor("cyan")
+    canvas = screen.getcanvas()
+    button = tk.Button(canvas.master, text="Press me", command=press)
+    canvas.create_window(-200, -200, window=button)
+    my_lovely_turtle = turtle.Turtle(shape="turtle")
+    turtle.done()
+
+"""
+
 class Options:
     def __init__(self):
         # Window Definition
@@ -200,7 +230,7 @@ class Options:
         if self.player_2_check_human.get() == 0\
                 and self.player_2_check_ai.get() == 1:
             self.player_dict['player_2'] = 'ai'
-        print(self.player_dict)
+        # print(self.player_dict)
         self.close()
 
     def close(self):

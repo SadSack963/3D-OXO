@@ -2,13 +2,13 @@ import math
 from turtle import Turtle, Screen, onscreenclick
 from time import sleep
 
-# window = Screen()
 DARK = (60, 60, 60)
 
 # TODO: Replace hard-coded dimensions with values derived from the window size
 
 
 class DrawScreen:
+    # Since turtle.Screen() returns a singular object, we cannot inherit from Screen
     def __init__(self):
         self.window = Screen()
 

@@ -8,16 +8,15 @@ class HumanPlayer:
         self.row = -1
         self.col = -1
 
-    def get_move(self, screen, game_state):
+    def get_move(self, screen):
         """
         Get a valid grid selection.\n
         The selected move is stored in self.row, self,col
+        Update the Turtle Graphics window while looking for mouse clicks
 
-        :param game_state: The current state of the game
-        :param screen: update the window while looking for mouse clicks
+        :param screen: Turtle Graphics window
         :return: nothing
         """
-        # game_state is not used by the human player, but it is used by the AI player
         self.row = -1
         self.col = -1
         onscreenclick(self.get_mouse_click_coord)

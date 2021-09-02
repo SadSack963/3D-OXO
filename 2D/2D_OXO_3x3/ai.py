@@ -1,3 +1,4 @@
+import global_vars
 from math import inf
 import numpy as np
 from evaluate_board_state import evaluate_board
@@ -13,19 +14,17 @@ class AIPlayer:
         self.col = -1
         self.game_state = 0  # This line is simply to prevent warning "Instance attribute game_state defined outside __init__"
 
-    def get_move(self, screen, game_state: np.ndarray):
+    def get_move(self, screen=None):
         """
         Finds the best possible move for the AI player using the minimax algorithm with alpha-beta pruning. \n
 
         https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/\n
         The selected move is stored in self.row, self,col
 
-        :param game_state:
-        :param screen: update the window while looking for mouse clicks
+        :param screen: Turtle Graphics window (not used by the AI player)
         :return: nothing
         """
-        # screen is not used by the AI player, but it is used by the human player
-        self.game_state = game_state
+        self.game_state = global_vars.board
 
         # https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python/
 
@@ -37,10 +36,10 @@ class AIPlayer:
 
         for i in range(3):
             for j in range(3):
-                if game_state[i][j] == 0:  # check that the spot is free
-                    game_state[i][j] = self.value  # make a test move
+                if self.game_state[i][j] == 0:  # check that the spot is free
+                    self.game_state[i][j] = self.value  # make a test move
                     score = self.minimax(self.game_state, alpha, beta, maximizing=False)  # next player is Minimizing player
-                    game_state[i][j] = 0  # undo the test move
+                    self.game_state[i][j] = 0  # undo the test move
                     if score > best_score:
                         best_score = score
                         best_move = (i, j)
@@ -60,7 +59,7 @@ class AIPlayer:
         :param test_state: state of the game_state during the test move
         :param alpha: best (highest) score so far for maximizing player
         :param beta: best (lowest) score so far for minimizing player
-        :param maximizing: this player is maximizing (or minimizing)
+        :param maximizing: this player is maximizing if True (or minimizing if False)
         :return: best score for the current test move
         """
 
@@ -68,7 +67,7 @@ class AIPlayer:
         # add 1 because this is used as a multiplier and should never be zero
         free_spaces = 1 + np.count_nonzero(test_state == 0)
 
-        # if the test game_state results in a win or draw, then return the score
+        # if the test state results in a win or draw, then return the score
         result = evaluate_board(test_state)  # check_win() returns 0 = Tie, 1 = Player 1 win, 2 = Player 2 win, or None
         if result == self.value:
             return self.score * free_spaces
