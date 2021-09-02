@@ -67,19 +67,19 @@
 <p>
     However, when I integrated it into my project, there was a problem. 
     I found that although the widgets appeared to work, the player dictionary wasn't being altered from the default values.
-    I noticed that a blank Turtle window was opening just before the tkinter window. 
-    This was obviously interfering with the tkinter code.
+    I noticed that a blank Turtle window was opening just before the Tkinter window. 
+    This was obviously interfering with the Tkinter code.
     It took me a while to refactor my code such that the Tkinter window appeared first, without the turtle window opening.
 </p>
 <p>
     The final step was to get some messages appearing on the Turtle window. 
-    For this, I created a Messenger class, which worked fine.
-    However, the same problem occurred again. 
+    For this, I created a Messenger class, which worked fine in isolation.
+    However, the same problem occurred again when I integrated it into the project. 
 </p>
 <p>
     This time, it was caused by the inheritance of the Turtle class. 
     I finally realised that simply initialising the super().__init__() method was creating a turtle, and in the process was creating a new Turtle Graphics window!
-    So I had to delay that initialisation until after the tkinter window had closed.
+    So I had to delay that initialisation until after the Tkinter window had closed.
 </p>
 <h2>
     Future development
