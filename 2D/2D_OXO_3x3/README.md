@@ -58,7 +58,7 @@
     The implementation was pretty straightforward. 
     The hardest part was figuring out how to detect which section of the grid the mouse was clicked in, 
     and getting the correct coordinates for drawing the X's and O's.
-    I was right chuffed when it all came together, and I could click on the screen to make a move! :)
+    I was right chuffed when it all came together, and I could click on the screen to make a move... and the AI made a move in reply! :)
 </p>
 <p>
     Now, I needed a way for the user to choose players. 
