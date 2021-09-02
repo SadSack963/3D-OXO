@@ -37,7 +37,8 @@
     The development process
 </h2>
 <p>
-    I first got the main concept code working using a numpy array to store the game state, and a simple text interface in the console. 
+    I first got the main concept code working using a numpy array to store the game state.
+    I used a simple text interface in the console, so that I could type in an array location and the print out the array so that I could see the move. 
     I tested several scenarios using the built in unittest module to make sure my game state evaluation was correct.
 </p>
 <p>
