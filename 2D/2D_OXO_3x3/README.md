@@ -69,7 +69,7 @@
     I found that although the widgets appeared to work, the player dictionary wasn't being altered from the default values.
     I noticed that a blank Turtle window was opening just before the Tkinter window. 
     This was obviously interfering with the Tkinter code.
-    It took me a while to refactor my code such that the Tkinter window appeared first, without the turtle window opening.
+    It took me a while to refactor my code such that the Tkinter window appeared first, without the Turtle Graphics window opening.
 </p>
 <p>
     The final step was to get some messages appearing on the Turtle window. 
