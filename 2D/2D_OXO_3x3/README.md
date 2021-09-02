@@ -101,6 +101,7 @@
 <p>
     The final step, and I predict the most difficult, will be to create a rotatable cube in 3D space. 
     There are a few 3D engines for Python, but I haven't done any real investigation yet. 
+    Hopefully, I won't need to brush up my matrix manipulation too much!
 </p>
 <p>
     Time will tell how far I get along this road, but I am looking forward to the journey. 😀
