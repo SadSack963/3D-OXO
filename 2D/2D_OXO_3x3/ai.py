@@ -6,6 +6,12 @@ from evaluate_board_state import evaluate_board
 
 class AIPlayer:
     def __init__(self, value: int):
+        """
+        AI class definition.
+
+        :param value: Assigned to AI player - 1 = Player 1, 2 = Player 2
+        :type value: int
+        """
         self.value = value
         self.opposition_value = 2 if self.value == 1 else 1
         self.score = 1

@@ -7,10 +7,21 @@ import os
 
 def cls():
     # Cross-platform clear window
-    os.system('cls' if os.name == 'nt' else 'clear')
+    # os.system('cls' if os.name == 'nt' else 'clear')  # Doesn't work in PyCharm Terminal
+    print('\n' * 2)
 
 
 def check_win(user_id):
+    """
+    in vPython:
+        (negative -> positive)
+        x-axis is left -> right
+        y-axis is down -> up
+        z-axis is in (away) -> out (towards)
+
+    :param user_id:
+    :return:
+    """
     # Check for a winning combination
 
     # check each x-y plane
